@@ -93,8 +93,8 @@ Node* ll_find(const int pos);
 // LINKED LIST VARIABLES
 // ----------------------------------------
 
-static Node *head = 0, 
-            *tail = 0;
+static Node *head, 
+            *tail;
 
 // TREE FUNCTIONS
 // ----------------------------------------
