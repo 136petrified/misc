@@ -20,42 +20,42 @@ int size() {
     return count;
 }
 
-void insert(const int *data, const int *pos) {
+void insert(const int data, const int pos) {
     // Create new node and attach it at position
     int s = size();
 
     if (pos == 0) {
         push_first(data);
-    } else if (*pos == s - 1) {
+    } else if (pos == s - 1) {
         push_last(data);
     } else {
         Node *temp = (Node *) malloc(sizeof(Node)),
-             *dest = find(*pos); // dest->next = temp
+             *dest = find(pos); // dest->next = temp
 
-        temp->data = *data;
+        temp->data = data;
         temp->next = dest->next;
         dest->next = temp;  // dest->next can now be safely overwritten
     }
 }
 
-void remove(const int *pos) {
+void remove(const int pos) {
     // Remove node at position
     int s = size();
 
     if (pos == 0) {
         pop_first();
-    } else if (*pos == s - 1) {
+    } else if (pos == s - 1) {
         pop_last();
     } else {
-        Node *temp = find(*pos),
-             *prev = find(*pos - 1);
+        Node *temp = find(pos),
+             *prev = find(pos - 1);
 
         prev->next = temp->next;
         free(temp); // Free this node
     }
 }
 
-void push_first(const int *data) {
+void push_first(const int data) {
     Node *temp = (Node *) malloc(sizeof(Node));
     
     temp->data = *data;
@@ -63,10 +63,10 @@ void push_first(const int *data) {
     head = temp;
 }
 
-void push_last(const int *data) {
+void push_last(const int data) {
     Node *temp = (Node *) malloc(sizeof(Node));
     
-    temp->data = *data;
+    temp->data = data;
     temp->next = 0;
 
     if (tail != NULL) {
@@ -130,15 +130,15 @@ void print() {
         printf("%d\n", temp->data);
 }
 
-Node* find(const int *pos) {
+Node* find(const int pos) {
     // Check for valid position
-    if (*pos < 0 || *pos >= size()) {
+    if (pos < 0 || pos >= size()) {
         fprintf(stderr, "ERROR: Invalid size.");
         exit(EXIT_FAILURE); // Exit out from error
     }
 
     Node *temp = head;
-    for (int i = 0; i < *pos - 1; ++i)
+    for (int i = 0; i < pos - 1; ++i)
         temp = temp->next;
 
     return temp;
