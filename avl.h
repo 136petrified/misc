@@ -12,9 +12,16 @@ typedef struct TreeNode {
     struct TreeNode *right; // default: NULL
 } TreeNode;
 
-/* NODE FUNCTIONS */
+// NODE FUNCTIONS
+// ----------------------------------------
+
+// Initializes a Node with a head and tail pointer.
 void node_init();
+
+// Gets the size of a linked list by number of elements.
 int size();
+
+// Inserts
 void ins(const int data, const int pos);
 void rem(const int pos);
 void push_first(const int data);
@@ -26,16 +33,25 @@ void print();
 
 Node* find(const int pos);
 
-/* NODE VARIABLES */
+// NODE VARIABLES
+// ----------------------------------------
+
 static Node *head = 0, 
             *tail = 0;
 
-/* TREE FUNCTIONS */
+// TREE FUNCTIONS
+// ----------------------------------------
+
 void t_size();
 void t_balance();
 void t_insert(const int data, const int pos);
 void t_remove(const int pos);
 void t_free();
 void height();
+
+// TREE VARIABLES
+// ----------------------------------------
+
+static TreeNode *root = 0;
 
 #endif // _MISC_AVL_H
