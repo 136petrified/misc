@@ -83,7 +83,7 @@ void ll_free();
 void ll_print();
 
 /**
- * Locates a Node within a linked list through a specified position.
+ * Locates a Node within a linked list through a specified position and returns it.
  * 
  * @param pos a numeric value denoting a list index where 0 is the starting position.
  * @return The Node at the specified position.
@@ -102,15 +102,45 @@ static Node *head,
 /**
  * Retrieves the current number of elements in an AVL tree.
  * 
- * @return An integer representing the size of a linked list.
+ * @return An integer representing the size of an AVL tree.
  */
 int t_size();
+
+/**
+ * Balances a tree if uneven.
+ */
 void t_balance();
-void t_ins(const int data, const int pos);
-void t_rem(const int pos);
+
+/**
+ * Inserts a node into an AVL tree.
+ * 
+ * @param data a numeric value.
+ */
+void t_ins(const int data);
+
+/**
+ * Removes a node from an AVL tree.
+ * 
+ * @param data a numeric value.
+ */
+void t_rem(const int data);
+
+/**
+ * Clears all elements from an AVL tree through deallocation.
+ */
 void t_free();
-void height();
-void t_find();
+
+/**
+ * Calculates the maximum number of edges from a given TreeNode to a leaf TreeNode.
+ * 
+ * @param root any given TreeNode
+ */
+int t_height(const TreeNode *root);
+
+/**
+ * Locates a TreeNode within an AVL tree and returns it.
+ */
+TreeNode* t_find(const int data);
 
 // TREE VARIABLES
 // ----------------------------------------
