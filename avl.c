@@ -85,7 +85,7 @@ int ll_pop_first() {
         v = head->data;
         free(head);
         head = 0;
-        tail = 0;
+        tail = head;
     } else if (s > 1) {
         v = head->data;
         Node *temp = head;
