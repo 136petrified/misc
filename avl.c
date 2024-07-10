@@ -3,6 +3,9 @@
 
 #include "avl.h"
 
+// LINKED LIST FUNCTION DEFINITIONS
+// ----------------------------------------
+
 void ll_init() {
     Node *head = 0,
          *tail = 0;
@@ -143,3 +146,6 @@ Node* ll_find(const int pos) {
 
     return temp;
 }
+
+// TREE FUNCTION DEFINITIONS
+// ----------------------------------------
