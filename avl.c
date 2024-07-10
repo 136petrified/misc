@@ -58,7 +58,7 @@ void remove(const int pos) {
 void push_first(const int data) {
     Node *temp = (Node *) malloc(sizeof(Node));
     
-    temp->data = *data;
+    temp->data = data;
     temp->next = head;
     head = temp;
 }
