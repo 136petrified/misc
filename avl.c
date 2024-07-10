@@ -5,11 +5,8 @@
 #include "avl.h"
 
 void node_init() {
-    if (size() == 0) {
-        assert(head == NULL);
-        assert(tail == NULL);
-        assert(head == tail);
-    }
+    Node *head = 0,
+         *tail = 0;
 }
 
 int size() {
@@ -20,7 +17,7 @@ int size() {
     return count;
 }
 
-void insert(const int data, const int pos) {
+void ins(const int data, const int pos) {
     // Create new node and attach it at position
     int s = size();
 
@@ -38,7 +35,7 @@ void insert(const int data, const int pos) {
     }
 }
 
-void remove(const int pos) {
+void rem(const int pos) {
     // Remove node at position
     int s = size();
 
@@ -85,6 +82,8 @@ int pop_first() {
     if (s == 1) {
         v = head->data;
         free(head);
+        head = 0;
+        tail = 0;
     } else if (s > 1) {
         v = head->data;
         Node *temp = head;
@@ -105,6 +104,8 @@ int pop_last() {
     if (s == 1) {
         v = tail->data;
         free(tail);
+        tail = 0;
+        head = tail;
     } else if (s > 1) {
         Node *dest = find(s - 2);
 

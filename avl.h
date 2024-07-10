@@ -3,20 +3,20 @@
 
 typedef struct Node {
     int data;
-    Node *next; // default: NULL
+    struct Node *next; // default: NULL
 } Node;
 
 typedef struct TreeNode {
     int data;
-    TreeNode *left; // default: NULL
-    TreeNode *right; // default: NULL
+    struct TreeNode *left; // default: NULL
+    struct TreeNode *right; // default: NULL
 } TreeNode;
 
 /* NODE FUNCTIONS */
 void node_init();
 int size();
-void insert(const int data, const int pos);
-void remove(const int pos);
+void ins(const int data, const int pos);
+void rem(const int pos);
 void push_first(const int data);
 void push_last(const int data);
 int pop_first();
@@ -27,8 +27,8 @@ void print();
 Node* find(const int pos);
 
 /* NODE VARIABLES */
-Node *head = 0, 
-     *tail = 0;
+static Node *head = 0, 
+            *tail = 0;
 
 /* TREE FUNCTIONS */
 void t_size();
