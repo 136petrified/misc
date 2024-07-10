@@ -99,12 +99,19 @@ static Node *head = 0,
 // TREE FUNCTIONS
 // ----------------------------------------
 
-void t_size();
+/**
+ * Locates a Node within a linked list through a specified position.
+ * 
+ * @param pos a numeric value denoting a list index where 0 is the starting position.
+ * @return The Node at the specified position.
+ */
+int t_size();
 void t_balance();
-void t_insert(const int data, const int pos);
-void t_remove(const int pos);
+void t_ins(const int data, const int pos);
+void t_rem(const int pos);
 void t_free();
 void height();
+void t_find();
 
 // TREE VARIABLES
 // ----------------------------------------
