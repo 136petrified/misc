@@ -4,12 +4,12 @@
 
 #include "avl.h"
 
-void node_init() {
+void ll_init() {
     Node *head = 0,
          *tail = 0;
 }
 
-int size() {
+int ll_size() {
     int count = 0;
     for (Node *temp = head; temp != NULL; temp = temp->next)
         count++;
@@ -17,17 +17,17 @@ int size() {
     return count;
 }
 
-void ins(const int data, const int pos) {
+void ll_ins(const int data, const int pos) {
     // Create new node and attach it at position
-    int s = size();
+    int s = ll_size();
 
     if (pos == 0) {
-        push_first(data);
+        ll_push_first(data);
     } else if (pos == s - 1) {
-        push_last(data);
+        ll_push_last(data);
     } else {
         Node *temp = (Node *) malloc(sizeof(Node)),
-             *dest = find(pos); // dest->next = temp
+             *dest = ll_find(pos); // dest->next = temp
 
         temp->data = data;
         temp->next = dest->next;
@@ -35,24 +35,24 @@ void ins(const int data, const int pos) {
     }
 }
 
-void rem(const int pos) {
+void ll_rem(const int pos) {
     // Remove node at position
-    int s = size();
+    int s = ll_size();
 
     if (pos == 0) {
-        pop_first();
+        ll_pop_first();
     } else if (pos == s - 1) {
-        pop_last();
+        ll_pop_last();
     } else {
-        Node *temp = find(pos),
-             *prev = find(pos - 1);
+        Node *temp = ll_find(pos),
+             *prev = ll_find(pos - 1);
 
         prev->next = temp->next;
         free(temp); // Free this node
     }
 }
 
-void push_first(const int data) {
+void ll_push_first(const int data) {
     Node *temp = (Node *) malloc(sizeof(Node));
     
     temp->data = data;
@@ -60,7 +60,7 @@ void push_first(const int data) {
     head = temp;
 }
 
-void push_last(const int data) {
+void ll_push_last(const int data) {
     Node *temp = (Node *) malloc(sizeof(Node));
     
     temp->data = data;
@@ -75,8 +75,8 @@ void push_last(const int data) {
     }
 }
 
-int pop_first() {
-    int s = size(),
+int ll_pop_first() {
+    int s = ll_size(),
         v;  // Value to return
 
     if (s == 1) {
@@ -97,8 +97,8 @@ int pop_first() {
     return v;
 }
 
-int pop_last() {
-    int s = size(),
+int ll_pop_last() {
+    int s = ll_size(),
         v;  // Value to return
 
     if (s == 1) {
@@ -107,7 +107,7 @@ int pop_last() {
         tail = 0;
         head = tail;
     } else if (s > 1) {
-        Node *dest = find(s - 2);
+        Node *dest = ll_find(s - 2);
 
         v = tail->data;
         dest->next = 0;
@@ -121,19 +121,19 @@ int pop_last() {
     return v;
 }
 
-void _free() {
-    while (size())
-        pop_last();
+void ll_free() {
+    while (ll_size())
+        ll_pop_last();
 }
 
-void print() {
+void ll_print() {
     for (Node *temp = head; temp != NULL; temp = temp->next)
         printf("%d\n", temp->data);
 }
 
-Node* find(const int pos) {
+Node* ll_find(const int pos) {
     // Check for valid position
-    if (pos < 0 || pos >= size()) {
+    if (pos < 0 || pos >= ll_size()) {
         fprintf(stderr, "ERROR: Invalid size.");
         exit(EXIT_FAILURE); // Exit out from error
     }

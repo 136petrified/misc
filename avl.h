@@ -12,20 +12,20 @@ typedef struct TreeNode {
     struct TreeNode *right; // default: NULL
 } TreeNode;
 
-// NODE FUNCTIONS
+// LINKED LIST FUNCTIONS
 // ----------------------------------------
 
 /**
  * Initializes a linked list with a head and tail pointer.
  */
-void node_init();
+void ll_init();
 
 /**
  * Retrieves the current number of elements in a linked list.
  * 
  * @return An integer representing the size of a linked list.
  */
-int size();
+int ll_size();
 
 /**
  * Inserts a node after a position within a linked list.
@@ -33,28 +33,28 @@ int size();
  * @param data a numeric value.
  * @param pos a numeric value denoting a list index where 0 is the starting position.
  */
-void ins(const int data, const int pos);
+void ll_ins(const int data, const int pos);
 
 /**
  * Removes a node at a position within a linked list.
  * 
  * @param pos a numeric value denoting a list index where 0 is the starting position.
  */
-void rem(const int pos);
+void ll_rem(const int pos);
 
 /**
  * Appends a node to the beginning of a linked list.
  * 
  * @param data a numeric value.
  */
-void push_first(const int data);
+void ll_push_first(const int data);
 
 /**
  * Appends a node to the end of a linked list.
  * 
  * @param data a numeric value.
  */
-void push_last(const int data);
+void ll_push_last(const int data);
 
 /**
  * Removes the node at the beginning of a linked list.
@@ -63,24 +63,24 @@ void push_last(const int data);
  * @return The integer stored from the removed node.
  * exit() is called if linked list is empty or of invalid size.
  */
-int pop_first();
+int ll_pop_first();
 
 /**
  * Removes the node at the end of a linked list.
  * 
  * @return The integer stored from the removed node.
  */
-int pop_last();
+int ll_pop_last();
 
 /**
  * Clears a linked list through deallocation.
  */
-void _free();
+void ll_free();
 
 /**
  * Prints each element stored in a linked list.
  */
-void print();
+void ll_print();
 
 /**
  * Locates a Node within a linked list through a specified position.
@@ -88,9 +88,9 @@ void print();
  * @param pos a numeric value denoting a list index where 0 is the starting position.
  * @return The Node at the specified position.
  */
-Node* find(const int pos);
+Node* ll_find(const int pos);
 
-// NODE VARIABLES
+// LINKED LIST VARIABLES
 // ----------------------------------------
 
 static Node *head = 0, 
@@ -100,10 +100,9 @@ static Node *head = 0,
 // ----------------------------------------
 
 /**
- * Locates a Node within a linked list through a specified position.
+ * Retrieves the current number of elements in an AVL tree.
  * 
- * @param pos a numeric value denoting a list index where 0 is the starting position.
- * @return The Node at the specified position.
+ * @return An integer representing the size of a linked list.
  */
 int t_size();
 void t_balance();
