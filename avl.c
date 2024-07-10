@@ -36,15 +36,19 @@ void remove(const int *pos) {
     if (pos == 0) {
         pop_first();
     } else if (*pos == s - 1) {
-        push_last();
+        pop_last();
     } else {
-        Node *temp = (Node *) malloc(sizeof(Node)),
-             *dest = find(*pos); // dest->next = temp
+        Node *temp = find(*pos),
+             *prev = find(*pos - 1);
 
-        temp->data = data;
-        temp->next = dest->next;
-        dest->next = temp;  // dest->next can now be safely overwritten
+        prev->next = temp->next;
+        free(temp); // Free this node
     }
+}
+
+void push_front() {
+    Node *temp = (Node *) malloc(sizeof(Node));
+    
 }
 
 Node* find(const int *pos) {
