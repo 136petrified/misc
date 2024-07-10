@@ -15,16 +15,45 @@ typedef struct TreeNode {
 // NODE FUNCTIONS
 // ----------------------------------------
 
-// Initializes a Node with a head and tail pointer.
+/**
+ * Initializes a linked list with a head and tail pointer.
+ */
 void node_init();
 
-// Gets the size of a linked list by number of elements.
+/**
+ * Retrieves the current number of elements in a linked list.
+ * 
+ * @return An integer representing the size of a linked list.
+ */
 int size();
 
-// Inserts
+/**
+ * Inserts a node after a position within a linked list.
+ * 
+ * @param data a numeric value.
+ * @param pos a numeric value denoting a list index where 0 is the starting position.
+ */
 void ins(const int data, const int pos);
+
+/**
+ * Removes a node at a position within a linked list.
+ * 
+ * @param pos a numeric value denoting a list index where 0 is the starting position.
+ */
 void rem(const int pos);
+
+/**
+ * Appends a node to the beginning of a linked list.
+ * 
+ * @param data a numeric value.
+ */
 void push_first(const int data);
+
+/**
+ * Appends a node to the end of a linked list.
+ * 
+ * @param data a numeric value.
+ */
 void push_last(const int data);
 int pop_first();
 int pop_last();
