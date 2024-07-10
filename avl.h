@@ -55,11 +55,39 @@ void push_first(const int data);
  * @param data a numeric value.
  */
 void push_last(const int data);
+
+/**
+ * Removes the node at the beginning of a linked list.
+ *
+ * 
+ * @return The integer stored from the removed node.
+ * exit() is called if linked list is empty or of invalid size.
+ */
 int pop_first();
+
+/**
+ * Removes the node at the end of a linked list.
+ * 
+ * @return The integer stored from the removed node.
+ */
 int pop_last();
+
+/**
+ * Clears a linked list through deallocation.
+ */
 void _free();
+
+/**
+ * Prints each element stored in a linked list.
+ */
 void print();
 
+/**
+ * Locates a Node within a linked list through a specified position.
+ * 
+ * @param pos a numeric value denoting a list index where 0 is the starting position.
+ * @return The Node at the specified position.
+ */
 Node* find(const int pos);
 
 // NODE VARIABLES
