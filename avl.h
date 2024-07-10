@@ -22,6 +22,7 @@ void push_last(const int *data);
 int pop_first();
 int pop_last();
 void _free();
+void print();
 
 Node* find(const int *pos);
 

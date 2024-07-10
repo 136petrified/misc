@@ -120,6 +120,16 @@ int pop_last() {
     return v;
 }
 
+void _free() {
+    while (size())
+        pop_last();
+}
+
+void print() {
+    for (Node *temp = head; temp != NULL; temp = temp->next)
+        printf("%d\n", temp->data);
+}
+
 Node* find(const int *pos) {
     // Check for valid position
     if (*pos < 0 || *pos >= size()) {
