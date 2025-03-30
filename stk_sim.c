@@ -28,12 +28,11 @@ struct PortfolioStock {
     char *name;
     char *sym;
     unsigned owned_shares;
-    unsigned total_shares;
     struct PortfolioStock *next;
 };
 
 struct Market {
-    struct Stock **avail_stocks;
+    struct Stock *avail_stocks;
     unsigned n_stocks;
 
     int u_speed;
@@ -45,26 +44,13 @@ struct Loan {
     time_t deadline;
 };
 
+// TODO: Update into linked list
 void m_display_ticker(const struct Market *m) {
-    for (unsigned i = 0, s = m->n_stocks; i < s; ++i) {
-        struct Stock *stk = m->avail_stocks[i];
-
-        printf("%-6s %.2lf %.2lf%%\n", stk->sym,
-                                     stk->val,
-                                     stk->diff);
-    }
+    // TODO: Also put this in a file for printout
 }
 
 struct Stock * m_find_stock(const struct Market *m, const char *sym) {
-    struct Stock **as = m->avail_stocks;
-
-    for (unsigned i = 0, s = m->n_stocks; i < s; ++i) {
-        if (sym == as[i]->sym) {
-            return as[i];
-        }
-    }
-
-    return NULL;
+    
 }
 
 double generate_value() {
@@ -175,10 +161,9 @@ void pf_add_stock(struct Portfolio *pf, const struct Stock *stk, const unsigned 
 
     struct PortfolioStock *ps = (struct PortfolioStock *) malloc(sizeof(struct PortfolioStock));
 
-    ps->name = stk->name;
-    ps->sym = stk->sym;
+    ps->name = strdup(stk->name);
+    ps->sym = strdup(stk->sym);
     ps->owned_shares = shares;
-    ps->total_shares = stk->total_shares;
     ps->next = pf->stocks; // pf->stocks is NULL initially
 
     pf->stocks = ps;
@@ -198,6 +183,7 @@ void pf_remove_stock(struct Portfolio *pf, const char *sym) {
         if (strcmp(sym, curr->sym) == 0) {
             prev->next = curr->next;
             free(curr);
+            --pf->port_size;
             return;
         }
 
@@ -221,6 +207,29 @@ struct PortfolioStock * pf_find_stock(const struct Portfolio *pf, const char *sy
     }
 
     return NULL;
+}
+
+void pf_update_stock(struct Portfolio *pf, struct PortfolioStock *ps_src) {
+    if (pf == NULL) {
+        return;
+    } else if (ps_src == NULL) {
+        return;
+    }
+
+    struct PortfolioStock *ps_dest = pf_find_stock(pf, ps_src->sym);
+    ps_update_stock(ps_dest, ps_src);
+}
+
+void ps_update_stock(struct PortfolioStock *ps_dest, struct PortfolioStock *ps_src) {
+    if (ps_dest == NULL || ps_src == NULL) {
+        return;
+    }
+
+    if (ps_dest->name != NULL) {
+        free(ps_dest->name);
+    }
+
+    ps_dest->name = strdup(ps_src)
 }
 
 void pf_delete_stocks(struct Portfolio *pf) {

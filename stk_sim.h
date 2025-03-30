@@ -9,10 +9,10 @@
 #include <string.h>
 #include <time.h>
 
-#define NAME_MAX 20
-#define STOCK_SYMBOL_MAX 5
-#define MAX_BALANCE DBL_MAX
-#define LOAN_MAX 32767
+constexpr int NAME_MAX = 20;
+constexpr int STOCK_SYMBOL_MAX = 5;
+constexpr double MAX_BALANCE = DBL_MAX;
+constexpr int LOAN_MAX = 32767;
 
 struct Wallet;
 struct Stock;
@@ -24,15 +24,25 @@ struct Loan;
 struct Wallet *wallets;
 
 double generate_value();
+
+// Market
+struct Market * m_init(struct Stock *avail_stocks, unsigned n_stocks, const int u_speed);
 void m_display_ticker(const struct Market *m);
+void m_add_stock(struct Market *m, const char *name, const char *sym, const double val, const double diff,
+                 const int status, unsigned avail_shares, unsigned total_shares);
+void m_remove_stock(struct Market *m, const char *sym);
+void m_update_stock(struct Market *m, const struct Stock *stk);
 struct Stock * m_find_stock(const struct Market *m, const char *sym);
 
+// Stock
 void s_update(struct Stock *stk);
 double s_calc_diff(const double prev, const double curr);
 int s_bad_event(struct Stock *stk);
 int s_good_event(struct Stock *stk);
+void s_delete(struct Stock *stk);
 void s_listall(const struct Stock *stk);
 
+// Wallet
 void w_add_stock(struct Wallet *w, const struct Stock *stk, const unsigned shares);
 void w_remove_stock(struct Wallet *w, const struct Stock *stk);
 void w_update_stock(struct Wallet *w, const char *sym, const unsigned shares);
@@ -43,15 +53,19 @@ void w_sellall(struct Wallet *w, const char *sym);
 void w_show_bal(struct Wallet *w);
 inline double w_get_bal(struct Wallet *w);
 inline void w_set_bal(struct Wallet *w, const int val);
-void w_delete_all(struct Wallet *w);
+void w_delete(struct Wallet *w);
 
+// Portfolio
 void pf_add_stock(struct Portfolio *pf, const struct Stock *stk, const unsigned shares);
 void pf_remove_stock(struct Portfolio *pf, const char *sym);
 struct PortfolioStock * pf_find_stock(const struct Portfolio *pf, const char *sym);
-void pf_update_stock(struct Portfolio *pf, const char *sym, const unsigned shares);
-void pf_update_stock(struct Portfolio *pf, struct PortfolioStock *ps, const unsigned shares);
-void pf_delete_stocks(struct Portfolio *pf);
-void pf_delete_all(struct Portfolio *pf);
+void pf_update_stock(struct Portfolio *pf, struct PortfolioStock *ps_src);
+void pf_delete_socks(struct Portfolio *pf);
+void pf_delete(struct Portfolio *pf);
+
+// PortfolioStock
+struct PortfolioStock * ps_init(const char *name, const char *sym, const unsigned shares);
+void ps_update_stock(struct PortfolioStock *ps_dest, struct PortfolioStock *ps_src);
 
 void print_err_msg(FILE *fp, const char *msg);
 
