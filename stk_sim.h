@@ -35,7 +35,7 @@ void s_listall(const struct Stock *stk);
 
 void w_add_stock(struct Wallet *w, const struct Stock *stk, const unsigned shares);
 void w_remove_stock(struct Wallet *w, const struct Stock *stk);
-void w_update_stock(struct Wallet *w, const struct Stock *stk, const unsigned shares);
+void w_update_stock(struct Wallet *w, const char *sym, const unsigned shares);
 void w_buy(struct Wallet *w, const struct Market *m, const char *sym, const unsigned shares);
 void w_sell(struct Wallet *w, const char *sym, const unsigned shares);
 void w_sellall(struct Wallet *w, const char *sym);
