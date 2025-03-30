@@ -20,9 +20,8 @@ struct Stock {
 };
 
 struct Portfolio {
-    struct PortfolioStock **stocks;
+    struct PortfolioStock *stocks;
     unsigned port_size;
-    unsigned port_cap;
 };
 
 struct PortfolioStock {
@@ -30,6 +29,7 @@ struct PortfolioStock {
     char *sym;
     unsigned owned_shares;
     unsigned total_shares;
+    struct PortfolioStock *next;
 };
 
 struct Market {
@@ -131,16 +131,9 @@ void w_add_stock(struct Wallet *w, const struct Stock *stk, const unsigned share
     }
 
     struct Portfolio *pf = w->portfolio;
-    struct PortfolioStock **new_port_stocks;
 
     if (pf == NULL) {
         return;
-    } else if (pf->port_size == pf->port_cap) { // if portfolio is FULL
-        unsigned np_size = pf->port_cap * 2;
-        new_port_stocks = (struct PortfolioStock **) malloc(sizeof(struct PortfolioStock *) * np_size);
-        w_copy_port(w, new_port_stocks, np_size);
-        pf_delete_stocks(pf); // Delete old portfolio stocks
-        pf->stocks = new_port_stocks;
     }
 
     pf_add_stocks(pf);
@@ -173,69 +166,78 @@ void w_buy(struct Wallet *w, const struct Market *m, const char *sym, const unsi
     // TODO: Finish this function
 }
 
-void pf_copy(struct Portfolio *pf, struct PortfolioStocks **new_port_stocks, const unsigned np_size) {
-    if (pf == NULL) {
-        return;
-    } else if (pf->stocks == NULL || new_port_stocks == NULL) {
-        return;
-    } else if (np_size < pf->port_size) {
-        return;
-    }
-
-    for (unsigned i = 0, s = pf->port_size; i < s; ++i) {
-        new_port_stocks[i] = pf->stocks[i];
-    }
-}
-
 void pf_add_stock(struct Portfolio *pf, const struct Stock *stk, const unsigned shares) {
     if (pf == NULL) {
         return;
-    } else if (pf->stocks == NULL) {
-        pf->stocks = (struct PortfolioStock **) malloc(sizeof(struct PortfolioStock *) * 2);
-    } else if (pf->port_size == pf->port_cap) { // if portfolio is FULL
-        struct PortfolioStock **new_port_stocks;
-        unsigned np_size = pf->port_cap * 2;
-    
-        new_port_stocks = (struct PortfolioStock **) malloc(sizeof(struct PortfolioStock *) * np_size);
-        pf_copy(pf, new_port_stocks, np_size);
-        pf_delete_stocks(pf); // Delete old portfolio stocks
-        pf->stocks = new_port_stocks;
+    } else if (stk == NULL) {
+        return;
     }
 
     struct PortfolioStock *ps = (struct PortfolioStock *) malloc(sizeof(struct PortfolioStock));
+
     ps->name = stk->name;
     ps->sym = stk->sym;
-    ps->total_shares = stk->total_shares;
     ps->owned_shares = shares;
+    ps->total_shares = stk->total_shares;
+    ps->next = pf->stocks; // pf->stocks is NULL initially
 
-    pf->stocks[pf->port_size++] = ps;
+    pf->stocks = ps;
+    ++pf->port_size;
 }
 
 void pf_remove_stock(struct Portfolio *pf, const char *sym) {
     if (pf == NULL) {
         return;
+    } else if (sym == NULL) {
+        return;
+    } else if (pf->stocks == NULL) {
+        return;
     }
+
+    for (struct PortfolioStock *prev = NULL, *curr = pf->stocks; curr != NULL; curr = curr->next) {
+        if (strcmp(sym, curr->sym) == 0) {
+            prev->next = curr->next;
+            free(curr);
+            return;
+        }
+
+        prev = curr;
+    }
+}
+
+struct PortfolioStock * pf_find_stock(const struct Portfolio *pf, const char *sym) {
+    if (pf == NULL) {
+        return;
+    } else if (sym == NULL) {
+        return;
+    } else if (pf->stocks == NULL) {
+        return;
+    }
+
+    for (struct PortfolioStock *curr = pf->stocks; curr != NULL; curr = curr->next) {
+        if (strcmp(sym, curr->sym) == 0) {
+            return curr;
+        }
+    }
+
+    return NULL;
 }
 
 void pf_delete_stocks(struct Portfolio *pf) {
     if (pf == NULL) {
         return;
+    } else if (pf->stocks == NULL) {
+        return;
     }
 
-    for (unsigned i = 0; i < pf->port_size; ++i) {
-        free(pf->stocks[i]);                        // Delete all stocks
+    for (struct PortfolioStock *curr = pf->stocks; pf->stocks != NULL; curr = pf->stocks) {
+        pf->stocks = pf->stocks->next;
+        free(curr);
     }
-
-    free(pf->stocks);                               // Then free the stock array
-    pf->stocks = NULL;                              // Set to NULL to avoid double free
 }
 
 void pf_delete_all(struct Portfolio *pf) {
     if (pf == NULL) {
         return;
-    }
-
-    if (pf->stocks != NULL) {
-        pf_delete_stocks(pf);
     }
 }
