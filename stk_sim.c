@@ -155,7 +155,7 @@ void w_buy(struct Wallet *w, const struct Market *m, const char *sym, const unsi
     }
 
     double cost = shares * m_stk->val;          // Calculate price
-    struct Stock *w_stk = pf_find_stock(w->portfolio, sym); // Find in wallet portfolio
+    struct PortfolioStock *w_stk = pf_find_stock(w->portfolio, sym); // Find in wallet portfolio
 
     if (w_stk == NULL) {
         w_add_stock(w, m_stk, shares);                  // Add stock to portfolio if not found
