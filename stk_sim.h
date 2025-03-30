@@ -36,6 +36,7 @@ void s_listall(const struct Stock *stk);
 void w_add_stock(struct Wallet *w, const struct Stock *stk, const unsigned shares);
 void w_remove_stock(struct Wallet *w, const struct Stock *stk);
 void w_update_stock(struct Wallet *w, const char *sym, const unsigned shares);
+void w_update_stock(struct Wallet *w, struct PortfolioStock *ps, const unsigned shares);
 void w_buy(struct Wallet *w, const struct Market *m, const char *sym, const unsigned shares);
 void w_sell(struct Wallet *w, const char *sym, const unsigned shares);
 void w_sellall(struct Wallet *w, const char *sym);
@@ -47,7 +48,8 @@ void w_delete_all(struct Wallet *w);
 void pf_add_stock(struct Portfolio *pf, const struct Stock *stk, const unsigned shares);
 void pf_remove_stock(struct Portfolio *pf, const char *sym);
 struct PortfolioStock * pf_find_stock(const struct Portfolio *pf, const char *sym);
-void pf_update_stock(struct Portfolio *pf);
+void pf_update_stock(struct Portfolio *pf, const char *sym, const unsigned shares);
+void pf_update_stock(struct Portfolio *pf, struct PortfolioStock *ps, const unsigned shares);
 void pf_delete_stocks(struct Portfolio *pf);
 void pf_delete_all(struct Portfolio *pf);
 
