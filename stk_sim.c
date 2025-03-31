@@ -72,7 +72,7 @@ void s_update(struct Stock *stk) {
         return;
     }
 
-    double new_val = stk->val + value_generate();
+    double new_val = stk->val + generate_value();
 
     if (s_bad_event()) {
         stk->val *= 0.02;
@@ -122,7 +122,7 @@ void w_add_stock(struct Wallet *w, const struct Stock *stk, const unsigned share
         return;
     }
 
-    pf_add_stocks(pf);
+    pf_add_stock(pf, stk, shares);
 }
 
 void w_buy(struct Wallet *w, const struct Market *m, const char *sym, const unsigned shares) {
@@ -141,15 +141,16 @@ void w_buy(struct Wallet *w, const struct Market *m, const char *sym, const unsi
     }
 
     double cost = shares * m_stk->val;          // Calculate price
-    struct PortfolioStock *w_stk = pf_find_stock(w->portfolio, sym); // Find in wallet portfolio
+    w_update_stock(w, m_stk, shares);
 
-    if (w_stk == NULL) {
-        w_add_stock(w, m_stk, shares);                  // Add stock to portfolio if not found
-    } else {
-        w_update_stock(w, w_stk, shares);               // Otherwise update existing portfolio stock
-    }
+    w->bal -= cost;
+    m_stk->avail_shares -= shares;
+}
 
-    // TODO: Finish this function
+void w_update_stock(struct Wallet *w, const struct Stock *stk, const unsigned shares) {
+    struct PortfolioStock *ps_src = ps_init(stk->name, stk->sym, shares);
+    pf_update_stock(w->portfolio, ps_src);
+    ps_src = ps_delete(ps_src);
 }
 
 void pf_add_stock(struct Portfolio *pf, const struct Stock *stk, const unsigned shares) {
@@ -209,7 +210,7 @@ struct PortfolioStock * pf_find_stock(const struct Portfolio *pf, const char *sy
     return NULL;
 }
 
-void pf_update_stock(struct Portfolio *pf, struct PortfolioStock *ps_src) {
+void pf_update_stock(struct Portfolio *pf, const struct PortfolioStock *ps_src) {
     if (pf == NULL) {
         return;
     } else if (ps_src == NULL) {
@@ -220,7 +221,7 @@ void pf_update_stock(struct Portfolio *pf, struct PortfolioStock *ps_src) {
     ps_update_stock(ps_dest, ps_src);
 }
 
-void ps_update_stock(struct PortfolioStock *ps_dest, struct PortfolioStock *ps_src) {
+void ps_update_stock(struct PortfolioStock *ps_dest, const struct PortfolioStock *ps_src) {
     if (ps_dest == NULL || ps_src == NULL) {
         return;
     }
@@ -229,23 +230,27 @@ void ps_update_stock(struct PortfolioStock *ps_dest, struct PortfolioStock *ps_s
         free(ps_dest->name);
     }
 
-    ps_dest->name = strdup(ps_src)
+    ps_dest->name = strdup(ps_src);
+
+    ps_dest->owned_shares = ps_src->owned_shares;
 }
 
-void pf_delete_stocks(struct Portfolio *pf) {
+struct Portfolio * pf_delete_stocks(struct Portfolio *pf) {
     if (pf == NULL) {
-        return;
+        return pf;
     } else if (pf->stocks == NULL) {
-        return;
+        return pf;
     }
 
     for (struct PortfolioStock *curr = pf->stocks; pf->stocks != NULL; curr = pf->stocks) {
         pf->stocks = pf->stocks->next;
         free(curr);
     }
+
+    return pf;
 }
 
-void pf_delete_all(struct Portfolio *pf) {
+void pf_delete(struct Portfolio *pf) {
     if (pf == NULL) {
         return;
     }

@@ -28,44 +28,45 @@ double generate_value();
 // Market
 struct Market * m_init(struct Stock *avail_stocks, unsigned n_stocks, const int u_speed);
 void m_display_ticker(const struct Market *m);
-void m_add_stock(struct Market *m, const char *name, const char *sym, const double val, const double diff,
-                 const int status, unsigned avail_shares, unsigned total_shares);
+void m_add_stock(struct Market *m, struct Stock *stk);
 void m_remove_stock(struct Market *m, const char *sym);
-void m_update_stock(struct Market *m, const struct Stock *stk);
+void m_update_stock(struct Market *m, const struct Stock *stk_src);
 struct Stock * m_find_stock(const struct Market *m, const char *sym);
 
 // Stock
-void s_update(struct Stock *stk);
+struct Stock * s_init(const char *name, const char *sym, const double val,
+                      const int status, const unsigned avail_shares, const unsigned total_shares);
+void s_update(struct Stock *stk_dest, const struct Stock *stk_src);
 double s_calc_diff(const double prev, const double curr);
 int s_bad_event(struct Stock *stk);
 int s_good_event(struct Stock *stk);
-void s_delete(struct Stock *stk);
+struct Stock * s_delete(struct Stock *stk);
 void s_listall(const struct Stock *stk);
 
 // Wallet
 void w_add_stock(struct Wallet *w, const struct Stock *stk, const unsigned shares);
 void w_remove_stock(struct Wallet *w, const struct Stock *stk);
-void w_update_stock(struct Wallet *w, const char *sym, const unsigned shares);
-void w_update_stock(struct Wallet *w, struct PortfolioStock *ps, const unsigned shares);
+void w_update_stock(struct Wallet *w, const struct Stock *stk, const unsigned shares);
 void w_buy(struct Wallet *w, const struct Market *m, const char *sym, const unsigned shares);
 void w_sell(struct Wallet *w, const char *sym, const unsigned shares);
 void w_sellall(struct Wallet *w, const char *sym);
 void w_show_bal(struct Wallet *w);
 inline double w_get_bal(struct Wallet *w);
 inline void w_set_bal(struct Wallet *w, const int val);
-void w_delete(struct Wallet *w);
+struct Wallet * w_delete(struct Wallet *w);
 
 // Portfolio
 void pf_add_stock(struct Portfolio *pf, const struct Stock *stk, const unsigned shares);
 void pf_remove_stock(struct Portfolio *pf, const char *sym);
 struct PortfolioStock * pf_find_stock(const struct Portfolio *pf, const char *sym);
-void pf_update_stock(struct Portfolio *pf, struct PortfolioStock *ps_src);
-void pf_delete_socks(struct Portfolio *pf);
-void pf_delete(struct Portfolio *pf);
+void pf_update_stock(struct Portfolio *pf, const struct PortfolioStock *ps_src);
+struct Portfolio * pf_delete_stocks(struct Portfolio *pf);
+struct Portfolio * pf_delete(struct Portfolio *pf);
 
 // PortfolioStock
 struct PortfolioStock * ps_init(const char *name, const char *sym, const unsigned shares);
-void ps_update_stock(struct PortfolioStock *ps_dest, struct PortfolioStock *ps_src);
+void ps_update_stock(struct PortfolioStock *ps_dest, const struct PortfolioStock *ps_src);
+struct PortfolioStock * ps_delete(struct Portfolio *pf);
 
 void print_err_msg(FILE *fp, const char *msg);
 
