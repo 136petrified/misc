@@ -9,13 +9,56 @@
 #include <string.h>
 #include <time.h>
 
-constexpr int NAME_MAX = 20;
-constexpr int STOCK_SYMBOL_MAX = 5;
-constexpr double MAX_BALANCE = DBL_MAX;
-constexpr int LOAN_MAX = 32767;
+// constexpr int NAME_MAX = 20;
+// constexpr int STOCK_SYMBOL_MAX = 5;
+// constexpr double MAX_BALANCE = DBL_MAX;
+// constexpr int LOAN_MAX = 32767;
 
-struct Wallet;
-struct Stock;
+struct Wallet {
+    char *name;
+    double bal;
+    struct Portfolio *portfolio;
+
+    int elligible_for_loan;
+    struct Loan **loans;
+};
+
+struct Stock {
+    char *name;
+    char *sym;
+    double val;
+    double diff;
+    int status;
+    unsigned avail_shares;
+    unsigned total_shares;
+    struct Stock *next;
+};
+
+struct Portfolio {
+    struct PortfolioStock *stocks;
+    unsigned port_size;
+};
+
+struct PortfolioStock {
+    char *name;
+    char *sym;
+    unsigned owned_shares;
+    struct PortfolioStock *next;
+};
+
+struct Market {
+    struct Stock *avail_stocks;
+    unsigned n_stocks;
+
+    int u_speed;
+};
+
+struct Loan {
+    unsigned amount;
+    unsigned fulfilled;
+    time_t deadline;
+};
+
 struct Portfolio;
 struct PortfolioStock;
 struct Market;

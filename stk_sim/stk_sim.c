@@ -1,49 +1,5 @@
 #include "stk_sim.h"
 
-struct Wallet {
-    char *name;
-    double bal;
-    struct Portfolio *portfolio;
-
-    int elligible_for_loan;
-    struct Loan **loans;
-};
-
-struct Stock {
-    char *name;
-    char *sym;
-    double val;
-    double diff;
-    int status;
-    unsigned avail_shares;
-    unsigned total_shares;
-};
-
-struct Portfolio {
-    struct PortfolioStock *stocks;
-    unsigned port_size;
-};
-
-struct PortfolioStock {
-    char *name;
-    char *sym;
-    unsigned owned_shares;
-    struct PortfolioStock *next;
-};
-
-struct Market {
-    struct Stock *avail_stocks;
-    unsigned n_stocks;
-
-    int u_speed;
-};
-
-struct Loan {
-    unsigned amount;
-    unsigned fulfilled;
-    time_t deadline;
-};
-
 // TODO: Update into linked list
 void m_display_ticker(const struct Market *m) {
     // TODO: Also put this in a file for printout
@@ -67,7 +23,8 @@ double generate_value() {
     return a * sin(b * x + c);
 }
 
-void s_update(struct Stock *stk_dest, struct Stock *stk_src) {
+void s_update(struct Stock *stk_dest, const struct Stock *stk_src) {
+    /*
     if (stk == NULL) {
         return;
     }
@@ -85,7 +42,7 @@ void s_update(struct Stock *stk_dest, struct Stock *stk_src) {
         new_val = 0;
     }
 
-    stk->val = new_val;
+    stk->val = new_val; */
 }
 
 double s_calc_diff(const double prev, const double curr) {
@@ -251,8 +208,10 @@ struct Portfolio * pf_delete_stocks(struct Portfolio *pf) {
     return pf;
 }
 
-void pf_delete(struct Portfolio *pf) {
+struct Portfolio * pf_delete(struct Portfolio *pf) {
     if (pf == NULL) {
-        return;
+        return NULL;
     }
+
+    return NULL;
 }
