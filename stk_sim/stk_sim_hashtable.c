@@ -1,7 +1,9 @@
 #include "stk_sim_hashtable.h"
 
 struct STOCK_SIM_HASHTABLE * STOCK_SIM_HASHTABLE_init(const unsigned capacity) {
-    struct STOCK_SIM_HASHTABLE *table = (struct STOCK_SIM_HASHTABLE *) malloc(capacity * sizeof(struct Stock));
+    struct STOCK_SIM_HASHTABLE *table = (struct STOCK_SIM_HASHTABLE *) malloc(sizeof(struct STOCK_SIM_HASHTABLE));
+    table->stocks_buckets = (struct STOCK_SIM_HASHTABLE *) malloc(capacity * sizeof(struct Stock));
+    table->capacity = capacity;
     return table;
 }
 
@@ -11,3 +13,5 @@ struct STOCK_SIM_HASHTABLE * STOCK_SIM_HASHTABLE_insert(struct STOCK_SIM_HASHTAB
     table->stocks_buckets[bucket] = stk;
     return table;
 }
+
+struct STOCK_SIM_HASHTABLE * STOCK_SIM_HASHTABLE_insert
