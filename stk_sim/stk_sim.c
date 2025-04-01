@@ -67,7 +67,7 @@ double generate_value() {
     return a * sin(b * x + c);
 }
 
-void s_update(struct Stock *stk) {
+void s_update(struct Stock *stk_dest, struct Stock *stk_src) {
     if (stk == NULL) {
         return;
     }
@@ -84,6 +84,7 @@ void s_update(struct Stock *stk) {
     if (new_val < 0) {
         new_val = 0;
     }
+
     stk->val = new_val;
 }
 
