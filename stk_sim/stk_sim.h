@@ -14,13 +14,18 @@
 // constexpr double MAX_BALANCE = DBL_MAX;
 // constexpr int LOAN_MAX = 32767;
 
+#define NAME_MAX 20
+#define STOCK_SYMBOL_MAX 5
+#define MAX_BALANCE DBL_MAX
+#define LOAN_MAX = 32767
+
 struct Wallet {
     char *name;
     double bal;
     struct Portfolio *portfolio;
 
     int elligible_for_loan;
-    struct Loan **loans;
+    struct Loan **loans; // 3 loans maximum
 };
 
 struct Stock {
@@ -89,6 +94,8 @@ struct Stock * s_delete(struct Stock *stk);
 void s_listall(const struct Stock *stk);
 
 // Wallet
+struct Wallet * w_init(const char *name, const int bal, struct Portfolio *pf, 
+                       const int elligible_for_loan, struct Loan **loans);
 void w_add_stock(struct Wallet *w, const struct Stock *stk, const unsigned shares);
 void w_remove_stock(struct Wallet *w, const struct Stock *stk);
 void w_update_stock(struct Wallet *w, const struct Stock *stk, const unsigned shares);
@@ -101,6 +108,7 @@ inline void w_set_bal(struct Wallet *w, const int val);
 struct Wallet * w_destroy(struct Wallet *w);
 
 // Portfolio
+struct Portfolio * pf_init();
 void pf_add_stock(struct Portfolio *pf, const struct Stock *stk, const unsigned shares);
 void pf_remove_stock(struct Portfolio *pf, const char *sym);
 struct PortfolioStock * pf_find_stock(const struct Portfolio *pf, const char *sym);
@@ -114,5 +122,8 @@ void ps_update_stock(struct PortfolioStock *ps_dest, const struct PortfolioStock
 struct PortfolioStock * ps_destroy(struct PortfolioStock *ps);
 
 void print_err_msg(FILE *fp, const char *msg);
+
+// Loan
+struct Loan * l_init(const unsigned amount, const unsigned fulfilled, const time_t deadline);
 
 #endif // _STKSIM_H
