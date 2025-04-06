@@ -26,6 +26,7 @@ struct Wallet {
 struct Stock {
     char *name;
     char *sym;
+    char *sector;
     double val;
     double diff;
     int status;
@@ -77,7 +78,7 @@ void m_update_stock(struct Market *m, const struct Stock *stk_src);
 struct Stock * m_find_stock(const struct Market *m, const char *sym);
 
 // Stock
-struct Stock * s_init(const char *name, const char *sym, const double val,
+struct Stock * s_init(const char *name, const char *sym, const char *sector, const double val,
                       const int status, const unsigned avail_shares, const unsigned total_shares);
 void s_refresh(struct Stock *stk_dest, const struct Stock *stk_src);
 void s_update(struct Stock *stk_dest, const struct Stock *stk_src);
