@@ -23,7 +23,22 @@ double generate_value() {
     return a * sin(b * x + c);
 }
 
-void s_update(struct Stock *stk_dest, const struct Stock *stk_src) {
+struct Stock * s_init(const char *name, const char *sym, const double val,
+const int status, const unsigned avail_shares, const unsigned total_shares) {
+    struct Stock *stk = (struct Stock *) malloc(sizeof(struct Stock));
+
+    stk->name = name;
+    stk->sym = sym;
+    stk->val = val;
+    stk->status = status;
+    stk->avail_shares = avail_shares;
+    stk->total_shares = total_shares;
+    stk->next = NULL;
+
+    return stk;
+}
+
+void s_refresh(struct Stock *stk_dest, const struct Stock *stk_src) {
     /*
     if (stk == NULL) {
         return;

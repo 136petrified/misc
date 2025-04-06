@@ -14,4 +14,28 @@ struct STOCK_SIM_HASHTABLE * STOCK_SIM_HASHTABLE_insert(struct STOCK_SIM_HASHTAB
     return table;
 }
 
-struct STOCK_SIM_HASHTABLE * STOCK_SIM_HASHTABLE_insert
+struct STOCK_SIM_HASHTABLE * STOCK_SIM_HASHTABLE_remove(struct STOCK_SIM_HASHTABLE *table, const char *sym) {
+    unsigned bucket = STOCK_SIM_HASHTABLE_hash(sym);
+    for (struct Stock *curr = table->stocks_buckets[bucket], *prev = NULL; curr != NULL; curr = curr->next) {
+        if (sym == curr->sym) {
+            prev->next = curr->next;
+            free(curr);
+            return table;
+        }
+
+        prev = curr;
+    }
+
+    return table;
+}
+
+struct Stock * STOCK_SIM_HASHTABLE_find(struct STOCK_SIM_HASHTABLE *table, const char *sym) {
+    unsigned bucket = STOCK_SIM_HASHTABLE_hash(sym);
+    for (struct Stock *curr = table->stocks_buckets[bucket]; curr != NULL; curr = curr->next) {
+        if (sym == curr->sym) {
+            return curr;
+        }
+    }
+
+    return NULL; // NULL if not found
+}
