@@ -81,6 +81,7 @@ void m_add_stock(struct Market *m, struct Stock *stk);
 void m_remove_stock(struct Market *m, const char *sym);
 void m_update_stock(struct Market *m, const struct Stock *stk_src);
 struct Stock * m_find_stock(const struct Market *m, const char *sym);
+struct Market * m_destroy(struct Market *m);
 
 // Stock
 struct Stock * s_init(const char *name, const char *sym, const char *sector, const double val,
@@ -88,9 +89,9 @@ struct Stock * s_init(const char *name, const char *sym, const char *sector, con
 void s_refresh(struct Stock *stk_dest, const struct Stock *stk_src);
 void s_update(struct Stock *stk_dest, const struct Stock *stk_src);
 double s_calc_diff(const double prev, const double curr);
-int s_bad_event(struct Stock *stk);
-int s_good_event(struct Stock *stk);
-struct Stock * s_delete(struct Stock *stk);
+int s_bad_event();
+int s_good_event();
+struct Stock * s_destroy(struct Stock *stk);
 void s_listall(const struct Stock *stk);
 
 // Wallet
@@ -125,5 +126,7 @@ void print_err_msg(FILE *fp, const char *msg);
 
 // Loan
 struct Loan * l_init(const unsigned amount, const unsigned fulfilled, const time_t deadline);
+
+struct Loan * l_destroy(struct Loan *l);
 
 #endif // _STKSIM_H
